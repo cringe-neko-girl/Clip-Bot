@@ -23,3 +23,25 @@ Clip Bot is under active development and aims to provide a seamless experience f
 
 ---
 
+# Developer Notes
+
+- Editing  / Restarting Code:
+  -  Apply the updated deployment manifest to your Kubernetes cluster
+      ```
+      $ kubectl apply -f   kubernetes/deployment.yaml
+      ```
+
+  - Restarting
+
+     ```
+     $ docker build -t senkosanbroentername/clip-bot:newversion .
+     $ docker push senkosanbroentername/clip-bot:newversion
+    
+    # Run newversion
+     $ kubectl rollout restart deployment clip-bot
+    ```
+  -  Checking Uptime
+     ```
+        $ kubectl get pods
+     ```
+
