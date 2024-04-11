@@ -33,7 +33,7 @@ jobs:
       # Run the Docker container and execute start.py
       - name: Run Docker container
         run: |
-          docker pull senkosanbroentername/clip-bot:newest
-          docker run senkosanbroentername/clip-bot:newest python3 start.py
+          docker pull senkosanbroentername/clip-bot
+          docker run senkosanbroentername/clip-bot python3 start.py
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
