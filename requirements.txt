@@ -48,6 +48,7 @@ fandom-py
 pokebase
 faker
 Faker
+pyyaml
 python-Levenshtein
 discord-webhook
 psutil
