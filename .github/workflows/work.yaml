@@ -33,7 +33,11 @@ jobs:
       # Run the Docker container and execute start.py
       - name: Run Docker container
         run: |
-          docker pull senkosanbroentername/clip-bot
-          docker run --workdir /app senkosanbroentername/clip-bot
+              docker build -t senkosanbroentername/clip-bot:newversion .
+              docker push senkosanbroentername/clip-bot:newversion")
+              kubectl rollout restart deployment clip-bot
+              kubectl get pods -w")
+              docker pull senkosanbroentername/clip-bot:newversion
+              docker run --workdir /app senkosanbroentername/clip-bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
