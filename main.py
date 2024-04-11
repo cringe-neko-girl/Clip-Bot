@@ -13,7 +13,7 @@ load_dotenv()
 
 # Create a bot instance
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix=commands.when_mentioned_or('?'), help_command=None, intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('?'), intents=intents)
 
 # Event handler for when the bot is ready
 @bot.event
