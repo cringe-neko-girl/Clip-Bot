@@ -34,7 +34,7 @@ jobs:
       - name: Run Docker container
         run: |
               docker build -t senkosanbroentername/clip-bot:newversion .
-              docker push senkosanbroentername/clip-bot:newversion")
+              docker push senkosanbroentername/clip-bot:newversion
               kubectl rollout restart deployment clip-bot
               kubectl get pods -w")
               docker pull senkosanbroentername/clip-bot:newversion
