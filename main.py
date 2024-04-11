@@ -2,12 +2,15 @@
 
 import os
 import asyncio
+import yaml
 import setup
 from setup import discord, commands
 from dotenv import load_dotenv
 
+
 # Load environment variables from .env file
 # load_dotenv(dotenv_path='secrets/.env')  # Specify the correct path to .env file
+load_env_from_yaml('config.yaml')  # Specify the path to your YAML file
 
 # Create a bot instance
 intents = discord.Intents.all()
