@@ -22,8 +22,8 @@ venv/
 .ipynb_checkpoints/
 
 # Secrets and environment files
-*.env
-secrets/
+# *.env
+# secrets/
 
 # Log files
 *.log
