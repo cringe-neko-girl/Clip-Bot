@@ -1,1 +1,45 @@
-secrets/.env
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$pyi
+
+# Compiled object files
+*.o
+*.so
+
+# Backup files
+*.bak
+
+# Virtual environments
+env/
+venv/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Secrets and environment files
+*.env
+secrets/
+
+# Log files
+*.log
+
+# Build output directories
+build/
+dist/
+
+# Node.js dependencies
+node_modules/
+
+# Python egg files
+*.egg-info/
+
+# Docker related files
+Dockerfile
+
+# Others
+# Add any other file or directory patterns you want Git to ignore
