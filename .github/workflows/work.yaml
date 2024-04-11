@@ -35,8 +35,7 @@ jobs:
         run: |
               docker build -t senkosanbroentername/clip-bot:newversion .
               docker push senkosanbroentername/clip-bot:newversion
-              kubectl rollout restart deployment clip-bot
-              kubectl get pods -w")
+              kubectl apply -f   kubernetes/deployment.yaml
               docker pull senkosanbroentername/clip-bot:newversion
               docker run --workdir /app senkosanbroentername/clip-bot
         env:
