@@ -38,16 +38,17 @@ jobs:
 
       - name: Pull Docker Image and Run Container
         run: |
-          docker pull senkosanbroentername/clip-bot:newversion
-          docker run -d --workdir /app \
-            --name clip-bot \
-            --restart unless-stopped \
-            --memory=512m --cpus=1 \
-            --health-cmd="curl --fail http://localhost:port/healthcheck || exit 1" \
-            --health-interval=30s \
-            --health-timeout=10s \
-            --health-retries=3 \
-            -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-            senkosanbroentername/clip-bot:newversion
+               docker pull senkosanbroentername/clip-bot:newversion
+               docker run -d --workdir /app \
+                          --name clip-bot \
+                          --restart unless-stopped \
+                          --memory=1g --cpus=2 \
+                          --health-cmd="curl --fail http://localhost:port/healthcheck || exit 1" \
+                          --health-interval=30s \
+                          --health-timeout=10s \
+                          --health-retries=3 \
+                          -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
+                          senkosanbroentername/clip-bot:newversion
+
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
