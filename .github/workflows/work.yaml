@@ -37,15 +37,15 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t senkosanbroentername/clip-bot:latest .
+          docker build -t senkosanbroentername/clip-bot:newversion .
 
       - name: Push Docker Image
         run: |
-          docker push senkosanbroentername/clip-bot:latest
+          docker push senkosanbroentername/clip-bot:newversion
 
       - name: Pull Docker Image and Run Container
         run: |
-          docker pull senkosanbroentername/clip-bot:latest
+          docker pull senkosanbroentername/clip-bot:newversion
           docker run -d --workdir /app \
             --name clip-bot \
             --restart unless-stopped \
