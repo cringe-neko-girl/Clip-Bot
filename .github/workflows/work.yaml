@@ -23,24 +23,26 @@ jobs:
 
       - name: Stop and Remove Existing Docker Containers
         run: |
-          docker ps --filter "name=clip-bot" -q | xargs -r docker stop
-          docker ps --filter "name=clip-bot" -a -q | xargs -r docker rm
+          # Stop all running containers with name 'clip-bot'
+          docker ps -a --filter "name=clip-bot" -q | xargs -r docker stop
+          # Remove all containers with name 'clip-bot'
+          docker ps -a --filter "name=clip-bot" -q | xargs -r docker rm
 
       - name: Build Docker Image
         run: |
-          docker build -t senkosanbroentername/clip-bot:newversion .
+          docker build -t senkosanbroentername/clip-bot:latest .
 
       - name: Push Docker Image
         run: |
-          docker push senkosanbroentername/clip-bot:newversion
+          docker push senkosanbroentername/clip-bot:latest
 
       - name: Pull Docker Image and Run Container
         run: |
-          docker pull senkosanbroentername/clip-bot:newversion
+          docker pull senkosanbroentername/clip-bot:latest
           docker run -d --workdir /app \
             --name clip-bot \
             --restart unless-stopped \
             -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-            senkosanbroentername/clip-bot:newversion
+            senkosanbroentername/clip-bot:latest
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
