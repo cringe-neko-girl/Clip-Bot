@@ -30,6 +30,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           logout: true
 
+      - name: Stop and remove existing Docker containers
+        run: |
+              # Stop all running containers with the name of your bot
+              docker ps --filter "name=clip-bot" --format "{{.ID}}" | xargs --no-run-if-empty docker stop
+              
+              # Remove all containers with the name of your bot
+              docker ps -a --filter "name=clip-bot" --format "{{.ID}}" | xargs --no-run-if-empty docker rm
+
       # Run the Docker container and execute start.py
       - name: Run Docker container
         run: |
