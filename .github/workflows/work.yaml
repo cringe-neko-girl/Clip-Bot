@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -21,12 +21,21 @@ jobs:
           username: senkosanbroentername
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Clean up Docker images and volumes
+        run: |
+          # Remove unused Docker images
+          docker image prune -f
+          # Remove unused Docker volumes
+          docker volume prune -f
+
       - name: Build Docker Image
         run: |
           docker build -t senkosanbroentername/clip-bot:newversion .
+
       - name: Push Docker Image
         run: |
           docker push senkosanbroentername/clip-bot:newversion
+
       - name: Pull Docker Image and Run Container
         run: |
           docker pull senkosanbroentername/clip-bot:newversion
