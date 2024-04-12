@@ -2,41 +2,14 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
-  # Job for setting up the self-hosted runner
-  setup-runner:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create actions-runner directory
-        run: mkdir actions-runner && cd actions-runner
-
-      - name: Download runner package
-        run: curl -o actions-runner-linux-x64-2.315.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.315.0/actions-runner-linux-x64-2.315.0.tar.gz
-
-      - name: Validate hash (optional)
-        run: echo "6362646b67613c6981db76f4d25e68e463a9af2cc8d16e31bfeabe39153606a0 actions-runner-linux-x64-2.315.0.tar.gz" | shasum -a 256 -c
-
-      - name: Extract installer
-        run: tar xzf ./actions-runner-linux-x64-2.315.0.tar.gz
-
-      - name: Configure the runner
-        run: |
-          ./config.sh --url https://github.com/cringe-neko-girl/Clip-Bot --token ${{ secrets.GITHUB_RUNNER_TOKEN }}
-        working-directory: actions-runner
-
-      - name: Run the self-hosted runner
-        run: |
-          ./run.sh
-        working-directory: actions-runner
-
   build:
-    runs-on: self-hosted
-    needs: setup-runner  # Ensure the runner is set up before starting the build job
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
@@ -48,14 +21,11 @@ jobs:
           username: senkosanbroentername
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Stop and Remove Existing Docker Containers
-        run: |
-          docker ps --filter "name=clip-bot" -q | xargs -r docker stop
-          docker ps --filter "name=clip-bot" -a -q | xargs -r docker rm
-
       - name: Clean up Docker images and volumes
         run: |
+          # Remove unused Docker images
           docker image prune -f
+          # Remove unused Docker volumes
           docker volume prune -f
 
       - name: Build Docker Image
