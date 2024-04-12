@@ -43,6 +43,6 @@ jobs:
             --name clip-bot \
             --restart unless-stopped \
             -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-            senkosanbroentername/clip-bot:newversion
+            senkosanbroentername/clip-bot
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
