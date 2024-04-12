@@ -39,7 +39,7 @@ jobs:
       - name: Pull Docker Image and Run Container
         run: |
                docker pull senkosanbroentername/clip-bot:newversion
-               docker run -d --workdir /app \
+               docker run --workdir /app \
                           --name clip-bot \
                           --restart unless-stopped \
                           --memory=1g --cpus=2 \
