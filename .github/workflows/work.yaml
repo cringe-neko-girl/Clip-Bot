@@ -32,8 +32,10 @@ jobs:
 
       - name: Stop and remove existing Docker containers
         run: |
-              docker ps --filter "name=clip-bot" --format "{{.ID}}" | xargs --no-run-if-empty docker stop
-              docker ps -a --filter "name=clip-bot" --format "{{.ID}}" | xargs --no-run-if-empty docker rm
+              docker stop $(docker ps -q)
+              docker rm $(docker ps -a -q)
+
+
 
       # Run the Docker container and execute start.py
       - name: Run Docker container
