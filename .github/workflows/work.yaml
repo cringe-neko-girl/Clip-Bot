@@ -8,8 +8,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  # Job for setting up the self-hosted runner
+  setup-runner:
     runs-on: ubuntu-latest
+    steps:
+      - name: Create actions-runner directory
+        run: mkdir actions-runner && cd actions-runner
+
+      - name: Download runner package
+        run: curl -o actions-runner-linux-x64-2.315.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.315.0/actions-runner-linux-x64-2.315.0.tar.gz
+
+      - name: Validate hash (optional)
+        run: echo "6362646b67613c6981db76f4d25e68e463a9af2cc8d16e31bfeabe39153606a0 actions-runner-linux-x64-2.315.0.tar.gz" | shasum -a 256 -c
+
+      - name: Extract installer
+        run: tar xzf ./actions-runner-linux-x64-2.315.0.tar.gz
+
+      - name: Configure the runner
+        run: |
+          ./config.sh --url https://github.com/cringe-neko-girl/Clip-Bot --token ${{ secrets.GITHUB_RUNNER_TOKEN }}
+        working-directory: actions-runner
+
+      - name: Run the self-hosted runner
+        run: |
+          ./run.sh
+        working-directory: actions-runner
+
+  build:
+    runs-on: self-hosted
+    needs: setup-runner  # Ensure the runner is set up before starting the build job
 
     steps:
       - name: Checkout Repository
@@ -23,16 +50,12 @@ jobs:
 
       - name: Stop and Remove Existing Docker Containers
         run: |
-          # Stop all running containers with name 'clip-bot'
-          docker ps -a --filter "name=clip-bot" -q | xargs -r docker stop
-          # Remove all containers with name 'clip-bot'
-          docker ps -a --filter "name=clip-bot" -q | xargs -r docker rm
+          docker ps --filter "name=clip-bot" -q | xargs -r docker stop
+          docker ps --filter "name=clip-bot" -a -q | xargs -r docker rm
 
       - name: Clean up Docker images and volumes
         run: |
-          # Remove unused Docker images
           docker image prune -f
-          # Remove unused Docker volumes
           docker volume prune -f
 
       - name: Build Docker Image
@@ -50,6 +73,6 @@ jobs:
             --name clip-bot \
             --restart unless-stopped \
             -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
-            senkosanbroentername/clip-bot:latest
+            senkosanbroentername/clip-bot:newversion
         env:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
