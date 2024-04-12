@@ -36,7 +36,7 @@ jobs:
               docker build -t senkosanbroentername/clip-bot:newversion .
               docker push senkosanbroentername/clip-bot:newversion
               docker pull senkosanbroentername/clip-bot:newversion
-              docker run --workdir /app \
+              docker run -d --workdir /app \
               -e DISCORD_TOKEN="${{ secrets.DISCORD_TOKEN }}" \
               senkosanbroentername/clip-bot:newversion
         env:
